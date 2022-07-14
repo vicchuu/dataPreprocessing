@@ -8,7 +8,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 dataset_1 = pd.read_csv("titanic_train.csv")
 
-#dataset_1["Age"].fillna(90)
+
+dataset_1 =  dataset_1.replace({
+    np.Nan :0
+})
+print(dataset_1.head(10).to_string())
+#new_data = dataset_1["Age"].fillna(0)
 #
 #print(dataset_1.info())
 #
@@ -28,9 +33,9 @@ for col in dataset_1:
 plt.figure(figsize=(24,8))
 sns.heatmap(dataset_1.isnull(),cmap='YlGnBu')
 
-normal_data = np.random.randint(1,10,(10, 12))
-ax = sns.heatmap(normal_data, center=0,cmap="YlGnBu")
-#plt.show()
+# normal_data = np.random.randint(1,10,(10, 12))
+# ax = sns.heatmap(normal_data, center=0,cmap="YlGnBu")
+# #plt.show()
 
 # temp=0
 # for v in dataset_1["Survived"]:
@@ -62,5 +67,5 @@ for a in det:
 
     print(a)
 
-
+print(dataset_1.head(10).to_string())
 
