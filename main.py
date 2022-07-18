@@ -52,8 +52,7 @@ query = pd.DataFrame(dataset_1[(dataset_1["Age"]<30) & dataset_1["Survived"]==1]
 #query1 = dataset_1.groupby()
 
 #print(query.shape)
-for a in query["Age"]:
-    print(a)
+print(query.to_string())
 #print(query[:10])
 #print(data_query[:10])
 
@@ -71,6 +70,8 @@ for a in query["Age"]:
 
 """lets fill up empty values in training set"""
 
+
+dataset_1 = dataset_1.drop(["Name","Embarked","PassengerId","Parch"],axis=1)
 #print(dataset_1.isnull().sum().sort_values(ascending=False))
 
 #print(dataset_1.info())
@@ -158,10 +159,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 model_1 = DecisionTreeClassifier()
 
-# model_1.fit(train_x,train_y)
-# predict_model1 = model_1.predict(test_x)
+model_1.fit(train_x,train_y)
+predict_model1 = model_1.predict(test_x)
 
-accuracy1 = retScore(model_1,train_x,train_y,test_x,test_y) #accuracy_score(test_y,predict_model1)*100
+accuracy1 =accuracy_score(test_y,predict_model1)*100
 
 print("predict_model1 :",accuracy1)
 
@@ -281,8 +282,67 @@ print("predict_model1 :",accuracy1)
 # decision tree classifier is so good as comparing woth all other data models
 
 """Export pickle"""
+# logistic regression
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression(solver='liblinear')
+model.fit(train_x, train_y)
+pred = model.predict(test_x)
+
+"""third model lets check with linear regression"""
+
+para ={
+    'model':LogisticRegression(),
+    'params':{
+        'solver':["newton-cg","lbfgs","liblinear","sag","saga"],
+        'multi_class':["auto","ovr","multinomial"],
+        'penalty':["l2","elasticnet"]
+    }
+
+}
+from sklearn.model_selection import  RandomizedSearchCV
+
+# tree= RandomizedSearchCV(para,cv=5,random_state=23,scoring='accuracy')
+# print(tree)
+#please provide the date and time of
+# model_params = {
+#     'svm': {
+#         'model': svm.SVR(gamma='auto'),
+#         'params': {
+#             'C': [1, 10, 20],
+#             'kernel': ['rbf', 'linear']
+#         }
+#     },
+# clf =None
+# def retAccuracy():
+#     for model_name,model_value in para.items():
+
+        #if model_name == 'LogisticRegression':
+
+#clf = RandomizedSearchCV(para['model'], para['params'], cv=5, return_train_score=False)
+
+#clf.fit(train_x, train_y)
 
 
+#pred1 = clf.predict(test_x)
+#print("Accuracy :",accuracy_score(test_y,pred1))
+
+#print(clf.best_params_)
+"""Grid cross random searchCV"""
+
+
+model3 =LogisticRegression(solver="newton-cg",penalty="l2",multi_class="auto")
+model3.fit(train_x,train_y)
+predicting = model3.predict(test_x)
+def printgin():
+    print("Vishnu try u r best")
+
+
+
+# """K.fold validation """
+# print("Accuracy :",accuracy_score(test_y,pred)*100)
+# #acc
+# print(xtrain.iloc[57,:])
+# print(ytrain[57])
 import pickle
-
-pickle.dump(model_1,open("titanic_model.sav", 'wb'))
+# #
+pickle.dump(open("titanic_model.pkl", 'wb'))
