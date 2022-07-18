@@ -144,65 +144,145 @@ train_x , test_x, train_y,test_y = train_test_split(xtrain,ytrain,test_size=0.2,
 print(train_x.shape,train_y.shape)
 print(test_x.shape,test_y.shape)
 
+
+def retScore( model,xtrain,ytrain,xtest,ytest):
+    model.fit(xtrain,ytrain)
+    pred1 = model.predict(xtest)
+    accuracy = accuracy_score(ytest,pred1)*100
+    return accuracy
+
+
 """Decisio tree classifier"""
 
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 model_1 = DecisionTreeClassifier()
 
-model_1.fit(train_x,train_y)
-predict_model1 = model_1.predict(test_x)
+# model_1.fit(train_x,train_y)
+# predict_model1 = model_1.predict(test_x)
 
-accuracy1 = accuracy_score(test_y,predict_model1)*100
+accuracy1 = retScore(model_1,train_x,train_y,test_x,test_y) #accuracy_score(test_y,predict_model1)*100
 
 print("predict_model1 :",accuracy1)
 
 
 """Random Forest classifier"""
 
-from sklearn.ensemble import RandomForestClassifier
-
-model_2 = RandomForestClassifier(n_estimators=1700,criterion="entropy",min_samples_split=2,max_depth= 4,max_features='sqrt',random_state=23)
-
-model_2.fit(xtrain,ytrain)
-predict_model2=model_2.predict(test_x)
-
-accuracy2 = accuracy_score(test_y,predict_model2)*100
-print("Accuracy 2 :",accuracy2)
-
-
-# from sklearn.model_selection import GridSearchCV
-# rfc=RandomForestClassifier(random_state=42)
-# param_grid = {
-#     'n_estimators': [1500,1700],
-#     'max_features': [ 'sqrt', 'log2'],
-#     'max_depth' : [4,5,6,7,8],
-#     'criterion' :['gini', 'entropy']
-# }
+# from sklearn.ensemble import RandomForestClassifier
 #
-# CV_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv= 2)
-# CV_rfc.fit(xtrain,ytrain)
-# print(CV_rfc.best_params_)
+# model_2 = RandomForestClassifier(n_estimators=1700,criterion="entropy",min_samples_split=2,max_depth= 4,max_features='sqrt',random_state=23)
+#
+# # model_2.fit(xtrain,ytrain)
+# # predict_model2=model_2.predict(test_x)
+#
+# accuracy2 = retScore(model_2,train_x,train_y,test_x,test_y)#accuracy_score(test_y,predict_model2)*100
+# print("Accuracy 2 :",accuracy2)
+#
+#
+# # from sklearn.model_selection import GridSearchCV
+# # rfc=RandomForestClassifier(random_state=42)
+# # param_grid = {
+# #     'n_estimators': [1500,1700],
+# #     'max_features': [ 'sqrt', 'log2'],
+# #     'max_depth' : [4,5,6,7,8],
+# #     'criterion' :['gini', 'entropy']
+# # }
+# #
+# # CV_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv= 2)
+# # CV_rfc.fit(xtrain,ytrain)
+# # print(CV_rfc.best_params_)
+#
+# """model 3  Naive baiyes algo------GaussianNB"""
+#
+# from sklearn.gaussian_process import GaussianProcessClassifier
+# from sklearn.naive_bayes import GaussianNB
+#
+# model_3 =  GaussianNB()
+# # model_3.fit(xtrain,ytrain)
+# # predict3 =  model_3.predict(test_x)
+#
+# accuracy3 = retScore(model_3,train_x,train_y,test_x,test_y)#(test_y,predict3)*100
+#
+# print("Accuracy 3 :",accuracy3)
+#
+# """GaussianProcessClassifier"""
+# model_4 =  GaussianProcessClassifier(random_state=23)
+# # model_4.fit(train_x,train_y)
+# # predict4 =  model_4.predict(test_x)
+# #
+#
+# accuracy4 = retScore(model_4,train_x,train_y,test_x,test_y)# accuracy_score(test_y,predict4)*100
+#
+# print("Accuracy 4 :",accuracy4)
+#
+# """KNN classifier"""
+#
+# from sklearn.neighbors import KNeighborsClassifier
+# model_5 = KNeighborsClassifier(n_neighbors=5)
+#
+# accuracy5 = retScore(model_5,train_x,train_y,test_x,test_y)
+#
+# print("Accuracy 5 :",accuracy5)
+#
+#
+# """Support zvector Machine"""
+#
+# from sklearn.svm import SVC
+#
+# model_6 = SVC()
+# accuracy6 = retScore(model_6,train_x,train_y,test_x,test_y)
+#
+# print("Accuracy Score 6 :",accuracy6)
+#
+# """SGDClassifier"""
+#
+# from sklearn.linear_model import SGDClassifier
+#
+# model_7 = SGDClassifier()
+#
+# accuracy7 = retScore(model_7,train_x,train_y,test_x,test_y)
+#
+# all_models = pd.DataFrame({
+#     "Model" : ["DecisionTreeClassifier", "RandomForestClassifier", "GaussianNB", "GaussianProcessClassifier", "KNeighborsClassifier","SVC","SGDClassifier"],
+#     "Accuracy score" : [accuracy1, accuracy2, accuracy3, accuracy4, accuracy5,accuracy6,accuracy7]
+# })
+#
+# print(all_models.sort_values(by="Accuracy score"))
+#
+# """According all prediction Decision tree classifier and Random forest good score 79%"""
+#
+#
+# """printing men and women survived percentage"""
+#
+# print(dataset_1.head(3).to_string())
+# women = dataset_1.loc[dataset_1.Sex==0]["Embarked"]
+#
+# print(sum(women)/len(women))
+#
+# from sklearn.tree import plot_tree
+# from sklearn import tree
+#
+# #tree.plot_tree(model_1,filled=True)
+#
+#
+#
+# print(tree.export_text(model_1))
+#
+# sns.barplot(dataset_2['Sex'],dataset_2['Fare'])
+# plt.show()
+#
+# # tree.export_graphviz(model_2.estimators_[0],
+# #           feature_names=ytrain,
+# #           class_names=xtrain.columns,
+# #           filled=True, impurity=True,
+# #           rounded=True)
+# #fig.savefig('figure_name.png')
 
-"""model 3  Naive baiyes algo------GaussianNB"""
+# decision tree classifier is so good as comparing woth all other data models
 
-from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.naive_bayes import GaussianNB
+"""Export pickle"""
 
-model_3 =  GaussianNB()
-model_3.fit(xtrain,ytrain)
-predict3 =  model_3.predict(test_x)
 
-accuracy3 = accuracy_score(test_y,predict3)*100
+import pickle
 
-print("Accuracy 3 :",accuracy3)
-
-"""GaussianProcessClassifier"""
-model_4 =  GaussianProcessClassifier(random_state=23)
-model_4.fit(xtrain,ytrain)
-predict4 =  model_4.predict(test_x)
-
-accuracy4 = accuracy_score(test_y,predict4)*100
-
-print("Accuracy 4 :",accuracy4)
-
+pickle.dump(model_1,open("titanic_model.sav", 'wb'))
