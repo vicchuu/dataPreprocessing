@@ -52,7 +52,7 @@ query = pd.DataFrame(dataset_1[(dataset_1["Age"]<30) & dataset_1["Survived"]==1]
 #query1 = dataset_1.groupby()
 
 #print(query.shape)
-print(query.to_string())
+#print(query.to_string())
 #print(query[:10])
 #print(data_query[:10])
 
@@ -71,7 +71,7 @@ print(query.to_string())
 """lets fill up empty values in training set"""
 
 
-dataset_1 = dataset_1.drop(["Name","Embarked","PassengerId","Parch"],axis=1)
+dataset_1 = dataset_1.drop(["Name","Embarked","PassengerId","Parch","SibSp"],axis=1)
 #print(dataset_1.isnull().sum().sort_values(ascending=False))
 
 #print(dataset_1.info())
@@ -138,6 +138,10 @@ sns.heatmap(dataset_2.corr(),cmap="twilight",annot=True)#YlGnBu
 
 xtrain = dataset_2.drop(columns="Survived",axis=1)
 ytrain = dataset_2["Survived"]
+
+"""Scaling up """
+from sklearn import preprocessing
+#xtrain = preprocessing.StandardScaler().fit_transform(xtrain)
 
 from sklearn.model_selection import train_test_split
 train_x , test_x, train_y,test_y = train_test_split(xtrain,ytrain,test_size=0.2,random_state=1)
@@ -333,8 +337,8 @@ from sklearn.model_selection import  RandomizedSearchCV
 model3 =LogisticRegression(solver="newton-cg",penalty="l2",multi_class="auto")
 model3.fit(train_x,train_y)
 predicting = model3.predict(test_x)
-def printgin():
-    print("Vishnu try u r best")
+#def printgin():
+print(train_x)
 
 
 
@@ -345,4 +349,4 @@ def printgin():
 # print(ytrain[57])
 import pickle
 # #
-pickle.dump(open("titanic_model.pkl", 'wb'))
+pickle.dump(model3,open("titanic_model.pkl", 'wb'))
