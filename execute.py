@@ -35,6 +35,6 @@ def predict_api():
 
 
 if __name__=="__main__":
-    #print("233232")
+    print("233232")
     app.run(debug=True)
 
